@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
 
+from resume.models import Resume
 from resume.signup_form import CustomUserCreationForm
 
 def home_view(request):
@@ -20,3 +21,14 @@ def signup_view(request):
         form = CustomUserCreationForm()
     
     return render(request, 'resume/signup.html', {'form': form})
+
+
+def resume_list(request):
+    # Ensure the user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('login')  # Redirect to login page if not logged in
+
+    # Get all resumes for the authenticated user
+    resumes = Resume.objects.filter(user=request.user)
+
+    return render(request, 'resume/resume_list.html', {'resumes': resumes})
