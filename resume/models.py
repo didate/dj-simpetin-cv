@@ -2,9 +2,16 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+
+class CustomUser(AbstractUser):
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+
+    def __str__(self):
+        return self.username
 
 class Resume(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resumes')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='resumes')
     title = models.CharField(max_length=255, help_text="Title of your resume")
     summary = models.TextField(blank=True, help_text="A brief summary about yourself or this resume")
     created_at = models.DateTimeField(auto_now_add=True)

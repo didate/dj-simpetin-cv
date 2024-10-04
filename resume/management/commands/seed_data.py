@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
-from resume.models import Resume, WorkExperience, Education, Skill, Project, Certification, Reference
+from resume.models import Resume, WorkExperience, Education, Skill, Project, Certification, Reference, CustomUser
 from datetime import date
 
 class Command(BaseCommand):
@@ -8,9 +7,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         # Get or create a user
-        user, created = User.objects.get_or_create(
+        user, created = CustomUser.objects.get_or_create(
             username='moussa',
-            defaults={'email': 'moussa@example.com', 'first_name': 'John', 'last_name': 'Doe'}
+            defaults={'email': 'moussa@example.com', 'first_name': 'John', 'last_name': 'Doe', 'phone_number':'425526872'}
         )
         if created:
             user.set_password('?Fjs!4Q&m8HC3cLD')
@@ -96,9 +95,9 @@ class Command(BaseCommand):
 
 
         # Get or create a user
-        user, created = User.objects.get_or_create(
+        user, created = CustomUser.objects.get_or_create(
             username='didate',
-            defaults={'email': 'data.analyst@example.com', 'first_name': 'Alice', 'last_name': 'Smith'}
+            defaults={'email': 'data.analyst@example.com', 'first_name': 'Alice', 'last_name': 'Smith', 'phone_number':'834526872'}
         )
         if created:
             user.set_password('?Fjs!4Q&m8HC3cLD')
