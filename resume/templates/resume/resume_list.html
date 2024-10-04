@@ -19,7 +19,7 @@
                     <td class="py-2 px-4 border-b">{{ resume.title }}</td>
                     <td class="py-2 px-4 border-b">{{ resume.updated_at }}</td>
                     <td class="py-2 px-4 border-b">
-                        <a href="{% url 'home'  %}" class="text-blue-500 hover:underline">View</a>
+                        <a href="{% url 'resume_detail' resume.id  %}" class="text-blue-500 hover:underline">View</a>
                         |
                         <a href="{% url 'home'  %}" class="text-blue-500 hover:underline">Update</a>
                         |

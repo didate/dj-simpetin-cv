@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ resume.title }}</h1>
+    <p class="text-gray-600 mb-4"><strong>Summary:</strong> {{ resume.summary }}</p>
+    <p class="text-gray-500 mb-4"><strong>Last Updated:</strong> {{ resume.updated_at }}</p>
+
+    <div class="mt-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-2">Work Experience</h2>
+        <table class="min-w-full bg-gray-100 rounded-lg">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">Job Title</th>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">Company</th>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">Start Date</th>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">End Date</th>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for experience in resume.work_experiences.all %}
+                <tr class="hover:bg-gray-200">
+                    <td class="py-2 px-4 border-b border-gray-300">{{ experience.job_title }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ experience.company }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ experience.start_date }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ experience.end_date|default:"Present" }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ experience.description }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="py-2 px-4 text-center">No work experience listed.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-2">Education</h2>
+        <table class="min-w-full bg-gray-100 rounded-lg">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">Degree</th>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">Field of Study</th>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">School</th>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">Start Date</th>
+                    <th class="py-2 px-4 border-b border-gray-300 text-left">End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for education in resume.educations.all %}
+                <tr class="hover:bg-gray-200">
+                    <td class="py-2 px-4 border-b border-gray-300">{{ education.degree }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ education.field_of_study }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ education.school }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ education.start_date }}</td>
+                    <td class="py-2 px-4 border-b border-gray-300">{{ education.end_date|default:"Present" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="py-2 px-4 text-center">No education listed.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-2">Skills</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h3 class="text-xl font-semibold text-gray-600">Technical Skills</h3>
+                <ul class="bg-gray-100 rounded-lg p-4">
+                    {% for skill in skills %}
+                        <li class="py-1 border-b border-gray-300">{{ skill.name }}</li>
+                    {% empty %}
+                        <li class="py-1">No technical skills listed.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-gray-600">Soft Skills</h3>
+                <ul class="bg-gray-100 rounded-lg p-4">
+                    {% for skill in skills %}
+                        <li class="py-1 border-b border-gray-300">{{ skill.name }}</li>
+                    {% empty %}
+                        <li class="py-1">No soft skills listed.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-2">Projects</h2>
+        <ul class="bg-gray-100 rounded-lg p-4">
+            {% for project in resume.projects.all %}
+                <li class="py-2 border-b border-gray-300">
+                    <strong>{{ project.title }}</strong>: {{ project.description }} ({{ project.start_date }}{% if project.end_date %} - {{ project.end_date }}{% else %} Present{% endif %})
+                </li>
+            {% empty %}
+                <li class="py-2">No projects listed.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mt-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-2">Certifications</h2>
+        <ul class="bg-gray-100 rounded-lg p-4">
+            {% for certification in resume.certifications.all %}
+                <li class="py-2 border-b border-gray-300">{{ certification.name }} from {{ certification.authority }} (Earned on: {{ certification.date_earned }})</li>
+            {% empty %}
+                <li class="py-2">No certifications listed.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mt-6">
+        <h2 class="text-2xl font-semibold text-gray-700 mb-2">References</h2>
+        <ul class="bg-gray-100 rounded-lg p-4">
+            {% for reference in resume.references.all %}
+                <li class="py-2 border-b border-gray-300">
+                    <strong>{{ reference.name }}</strong> ({{ reference.relationship }}) - {{ reference.phone_number }}{% if reference.email %}, {{ reference.email }}{% endif %} {% if reference.company %} - {{ reference.company }}{% endif %}
+                </li>
+            {% empty %}
+                <li class="py-2">No references listed.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="flex justify-between mt-6">
+       <a href="{% url 'resume_list' %}" class="bg-gray-300 hover:bg-gray-400 text-gray-700 py-2 px-4 rounded transition duration-200">Back to Resumes</a>
+    </div>
+</div>
+{% endblock %}
