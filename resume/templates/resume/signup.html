@@ -19,7 +19,47 @@
             {% endif %}
         </div>
 
-        <!-- Password field -->
+        <!-- First Name field -->
+        <div class="mb-4">
+            <label for="id_first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+            <input type="text" name="first_name" id="id_first_name" value="{{ form.first_name.value|default_if_none:'' }}" 
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            {% if form.first_name.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.first_name.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Last Name field -->
+        <div class="mb-4">
+            <label for="id_last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+            <input type="text" name="last_name" id="id_last_name" value="{{ form.last_name.value|default_if_none:'' }}" 
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            {% if form.last_name.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.last_name.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Phone Number field -->
+        <div class="mb-4">
+            <label for="id_phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+            <input type="text" name="phone_number" id="id_phone_number" value="{{ form.phone_number.value|default_if_none:'' }}" 
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            {% if form.phone_number.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.phone_number.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Email field -->
+        <div class="mb-4">
+            <label for="id_email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" name="email" id="id_email" value="{{ form.email.value|default_if_none:'' }}" 
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            {% if form.email.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ form.email.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Password fields -->
         <div class="mb-4">
             <label for="id_password1" class="block text-sm font-medium text-gray-700">Password</label>
             <input type="password" name="password1" id="id_password1" 
@@ -28,8 +68,6 @@
                 <p class="text-red-500 text-sm mt-1">{{ form.password1.errors.0 }}</p>
             {% endif %}
         </div>
-
-        <!-- Password confirmation field -->
         <div class="mb-4">
             <label for="id_password2" class="block text-sm font-medium text-gray-700">Confirm Password</label>
             <input type="password" name="password2" id="id_password2" 
