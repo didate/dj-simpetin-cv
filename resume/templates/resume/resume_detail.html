@@ -2,124 +2,176 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="bg-white shadow rounded p-5">
+    
+    <div class="bg-white shadow rounded">
 
         <!-- Header Section -->
-        <div class="text-center mb-5">
-            <h1 class="display-4 font-weight-bold text-dark">{{ resume.user.first_name }} {{ resume.user.last_name }}</h1>
-            <p class="lead text-muted">{{ resume.title }}</p>
-            <p class="text-muted">{{ resume.user.phone_number }} | {{ resume.user.email }}</p>
-        </div>
+    <div class="text-center bg-secondary text-white">
+        <h1 class="display-4 font-weight-bold">{{ resume.user.first_name }} {{ resume.user.last_name }}</h1>
+        <p class="lead text-white">{{ resume.title }}</p>
+        <p class="text-white">{{ resume.user.phone_number }} | {{ resume.user.email }}</p>
+    </div>
         
-        <!-- User Information Section -->
-        <div class="mb-5">
+        <article class="p-5">
+            <section class="mb-3">
+                <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Career summary</h2>
+                <div class="section-content">
+                    <p class="text-muted">{{ resume.summary }}</p>
+                </div>
+            </section>
+    
+            <div class="row">
+                <div class="col-lg-9">
+                    <section class="mb-3">
+                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Work Experiences</h2>
+    
+                        <div class="section-content">
+                            {% if resume.work_experiences.all %}
+                                {% for experience in resume.work_experiences.all %}
+                                <article class="mb-3">
+                                    <div class="item-header">
+                                        <div class="d-flex flex-column flex-md-row">
+                                            <h3 class="position-title font-weight-bold mb-1"> {{ experience.job_title }} </h3>
+                                            <div class="company-name ms-auto">{{ experience.company }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="period"> {{ experience.start_date|date:"M Y" }} - {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Present{% endif %}</div>
+                                    <p class="mt-2">{{ experience.description }}</p>
+                                </article>
+                                {% endfor %}
+                           
+                            {% endif %}
+                        </div>
+                    </section>
+    
+                    <section class="mb-3">
+                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Projects</h2>
+
+                        <div class="section-content">
+                            {% if resume.projects.all %}
+                                {% for project in resume.projects.all %}
+                                <article class="mb-3">
+                                    <div class="item-header mb-2">
+                                            <h3 class="position-title font-weight-bold mb-1"> {{ project.title }} </h3>
+                                            <div class="period"> {{ project.start_date|date:"M Y" }} - {% if project.end_date %}{{ project.end_date|date:"M Y" }}{% else %}Present{% endif %}</div>
+                                    </div>
+                                    <p class="mt-2">{{ project.description }}</p>
+                                </article>
+                                {% endfor %}
+                           
+                            {% endif %}
+                        </div>
+                    </section>
+    
+                    <section class="mb-3">
+                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">References</h2>
+                        <div class="section-content">
+                            {% if resume.references.all %}
+                                {% for reference in resume.references.all %}
+                                <div class="mb-3">
+                                    <p class="mb-1"><strong>{{ reference.name }} ({{ reference.relationship }})</strong></p>
+                                    <p class="text-muted mb-0">{{ reference.company }} &bull; {{ reference.phone_number }} &bull; {{ reference.email }}</p>
+                                </div>
+                                {% endfor %}
+                            
+                            {% endif %}
+                        </div>
+                    </section>
+                </div>
+                <div class="col-lg-3">
+                    <section class="mb-3">
+                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Tech Skills</h2>
+                        <div class="section-content">
+                            {% if technical_skills %}
+                            <ul class="list-unstyled mb-2">
+                                {% for skill in technical_skills %}
+                                    <li class="mb-2">{{ skill.name }}</li>
+                                {% endfor %}
+                            </ul>
+                            
+                            {% endif %}
+                        </div>
+                    </section>
+    
+                    <section class="mb-3">
+                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Soft Skills</h2>
+                        <div class="section-content">
+                            {% if technical_skills %}
+                            <ul class="list-unstyled mb-2">
+                                {% for skill in soft_skills %}
+                                    <li class="mb-2">{{ skill.name }}</li>
+                                {% endfor %}
+                            </ul>
+                            
+                            {% endif %}
+                        </div>
+                    </section>
+    
+                    <section class="mb-3">
+                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Educations</h2>
+                        <div class="section-content">
+                            {% if resume.educations.all %}
+                                {% for education in resume.educations.all %}
+                                <div class="mb-3">
+                                    <div class="deg-name font-weight-bold">{{ education.degree }} in {{ education.field_of_study }}</div>
+                                    <div class="deg-school">{{ education.school }} </div>
+                                    <div class="period">
+                                        {{ education.start_date|date:"Y" }} - 
+                                            {% if education.end_date %}
+                                                {{ education.end_date|date:"Y" }}{% else %}Present
+                                            {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            
+                            {% endif %}
+                        </div>
+                    </section>
+                    <section class="mb-3">
+                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Certifications</h2>
+                        <div class="section-content">
+                            {% if resume.certifications.all %}
+
+                            {% for certification in resume.certifications.all %} 
+                            <div class="mb-3">
+                                <div class="deg-name">{{ certification.name }}</div>
+                                <div class="deg-school">{{ certification.authority }}</div>
+                                <div class="period">Earned: {{ certification.date_earned|date:"M Y" }}</div>
+                            </div>
+                            {% endfor %}
+
+
+                            {% endif %}
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Back Button -->
+        <div class="mt-4 text-center">
+            <a href="{% url 'home' %}" class="btn btn-outline-primary">Back to Resumes</a>
+        </div>
+
+        </article>
+
+
+
+         <!-- User Information Section -->
+       {% comment %}  <div class="mb-5">
             <h2 class="fs-3 fw-bold text-primary border-bottom pb-2 mb-4">User Information</h2>
             <p class="mb-2"><strong>Full Name:</strong> {{ resume.user.first_name }} {{ resume.user.last_name }}</p>
             <p class="mb-2"><strong>Phone Number:</strong> {{ resume.user.phone_number }}</p>
-        </div>
+        </div> {% endcomment %}
 
 
         <!-- Basic Information Section -->
-        <div class="mb-5">
+       {% comment %}  <div class="mb-5">
             <h2 class="fs-3 fw-bold text-primary border-bottom pb-2 mb-4">Profile Overview</h2>
             <p class="mb-2"><strong>{{ resume.title }}</strong></p>
-            <p class="text-muted">{{ resume.summary }}</p>
-        </div>
+            <p class="mb-0">{{ resume.summary }}</p>
+        </div> {% endcomment %}
 
-        <!-- Work Experience Section -->
-        <div class="mb-5">
-            <h2 class="fs-4 fw-bold text-success border-bottom pb-2 mb-4">Work Experience</h2>
-            {% if resume.work_experiences.all %}
-                {% for experience in resume.work_experiences.all %}
-                <div class="mb-3">
-                    <h3 class="fw-semibold">{{ experience.job_title }}</h3>
-                    <p class="text-muted mb-1">{{ experience.company }} &bull; {{ experience.start_date|date:"M Y" }} - {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Present{% endif %}</p>
-                    <p>{{ experience.description }}</p>
-                </div>
-                {% endfor %}
-            {% else %}
-            <p class="text-muted">No work experience listed.</p>
-            {% endif %}
-        </div>
-
-        <!-- Education Section -->
-        <div class="mb-5">
-            <h2 class="fs-4 fw-bold text-success border-bottom pb-2 mb-4">Education</h2>
-            {% if resume.educations.all %}
-                {% for education in resume.educations.all %}
-                <div class="mb-3">
-                    <h3 class="fw-semibold">{{ education.degree }} in {{ education.field_of_study }}</h3>
-                    <p class="text-muted mb-1">{{ education.school }} &bull; {{ education.start_date|date:"Y" }} - {% if education.end_date %}{{ education.end_date|date:"Y" }}{% else %}Present{% endif %}</p>
-                </div>
-                {% endfor %}
-            {% else %}
-            <p class="text-muted">No education listed.</p>
-            {% endif %}
-        </div>
-
-        <!-- Skills Section -->
-        <div class="mb-5">
-            <h2 class="fs-4 fw-bold text-success border-bottom pb-2 mb-4">Skills</h2>
-            <div class="d-flex flex-wrap">
-                {% for skill in resume.skills.all %}
-                    <span class="badge bg-primary text-white me-2 mb-2">{{ skill.name }}</span>
-                {% endfor %}
-            </div>
-            {% if not resume.skills.all %}
-            <p class="text-muted">No skills listed.</p>
-            {% endif %}
-        </div>
-
-        <!-- Projects Section -->
-        <div class="mb-5">
-            <h2 class="fs-4 fw-bold text-success border-bottom pb-2 mb-4">Projects</h2>
-            {% if resume.projects.all %}
-                {% for project in resume.projects.all %}
-                <div class="mb-3">
-                    <h3 class="fw-semibold">{{ project.title }}</h3>
-                    <p class="text-muted mb-1">{{ project.start_date|date:"M Y" }} - {% if project.end_date %}{{ project.end_date|date:"M Y" }}{% else %}Present{% endif %}</p>
-                    <p>{{ project.description }}</p>
-                </div>
-                {% endfor %}
-            {% else %}
-            <p class="text-muted">No projects listed.</p>
-            {% endif %}
-        </div>
-
-        <!-- Certifications Section -->
-        <div class="mb-5">
-            <h2 class="fs-4 fw-bold text-success border-bottom pb-2 mb-4">Certifications</h2>
-            {% if resume.certifications.all %}
-                {% for certification in resume.certifications.all %}
-                <div class="mb-3">
-                    <p><strong>{{ certification.name }}</strong> &bull; {{ certification.authority }}</p>
-                    <p class="text-muted mb-0">Earned: {{ certification.date_earned|date:"M Y" }}</p>
-                </div>
-                {% endfor %}
-            {% else %}
-            <p class="text-muted">No certifications listed.</p>
-            {% endif %}
-        </div>
-
-        <!-- References Section -->
-        <div class="mb-5">
-            <h2 class="fs-4 fw-bold text-success border-bottom pb-2 mb-4">References</h2>
-            {% if resume.references.all %}
-                {% for reference in resume.references.all %}
-                <div class="mb-3">
-                    <p><strong>{{ reference.name }} ({{ reference.relationship }})</strong></p>
-                    <p class="text-muted mb-0">{{ reference.company }} &bull; {{ reference.phone_number }} &bull; {{ reference.email }}</p>
-                </div>
-                {% endfor %}
-            {% else %}
-            <p class="text-muted">No references listed.</p>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Back Button -->
-    <div class="mt-4 text-center">
-        <a href="{% url 'resume_list' %}" class="btn btn-outline-primary">Back to Resumes</a>
-    </div>
+        
 </div>
 {% endblock %}
