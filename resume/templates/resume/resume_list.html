@@ -2,26 +2,25 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center fw-bold mb-5 text-primary">My Resumes</h1>
+    <h1 class="text-center fw-bold mb-5 ">Welcome {{ user.first_name }}, here are your resumes</h1>
 
     {% if resumes %}
-        <div class="table-responsive shadow-lg">
-            <table class="table table-bordered table-striped">
-                <thead class="table-primary">
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Summary</th>
-                        <th scope="col">Last Updated</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for resume in resumes %}
-                    <tr>
-                        <td>{{ resume.title }}</td>
-                        <td>{{ resume.summary }}</td>
-                        <td>{{ resume.updated_at|date:"F j, Y, g:i a" }}</td>
-                        <td>
+
+            {% for resume in resumes %}
+
+                <article class="bg-white shadow rounded mb-5 p-4">
+                    <div class="d-flex flex-column flex-md-row">
+                        <h2 class="resume-list-title font-weight-bold">{{ resume.title }}</h2>
+                        <div class="ms-auto">{{ resume.updated_at|date:"F j, Y, g:i a" }}</div>
+                    </div>
+                    <hr class="mt-2 mb-2">
+                    
+                    <p>
+                        {{ resume.summary }}
+                    </p>
+
+                    <div class="d-flex flex-column flex-md-row">
+                        <div  class="ms-auto">
                             <a href="{% url 'resume_detail' resume.id  %}" class="text-primary text-decoration-underline">View</a>
                             |
                             <a href="{% url 'home' %}" class="text-success text-decoration-underline">Update</a>
@@ -30,18 +29,15 @@
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-link text-danger text-decoration-underline p-0">Delete</button>
                             </form>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="4" class="text-center">No resumes found. Please create one!</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                        </div>
+                    </div>
+                </article>        
+            {% endfor %}
+
     {% else %}
-        <p class="text-muted text-center">No resumes found. Please create one!</p>
+        <article class="bg-white shadow rounded mb-5 p-3">
+            No resumes found. Please create one!
+        </article>
     {% endif %}
 
     <div class="d-flex justify-content-between mt-4">
