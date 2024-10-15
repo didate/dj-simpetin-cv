@@ -14,30 +14,40 @@
         
         <article class="p-5">
             <section class="mb-3">
-                <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Career summary</h2>
-                <div class="section-content">
+                {% comment %} <h2 class="section-title text-uppercase font-weight-bold pb-2 mb-3">Career summary</h2> {% endcomment %}
+                <div class="section-content carrier-summary">
                     <p class="text-muted">{{ resume.summary }}</p>
                 </div>
             </section>
     
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-8">
                     <section class="mb-3">
-                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Work Experiences</h2>
+                        <h2 class="section-title text-uppercase font-weight-bold pb-2 mb-3">Work Experiences</h2>
     
                         <div class="section-content">
                             {% if resume.work_experiences.all %}
                                 {% for experience in resume.work_experiences.all %}
+                                    
                                 <article class="mb-3">
                                     <div class="item-header">
                                         <div class="d-flex flex-column flex-md-row">
                                             <h3 class="position-title font-weight-bold mb-1"> {{ experience.job_title }} </h3>
-                                            <div class="company-name ms-auto">{{ experience.company }}</div>
+                                            <h4 class="company-name ms-auto ">{{ experience.company }}</h4>
                                         </div>
                                     </div>
                                     <div class="period"> {{ experience.start_date|date:"M Y" }} - {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Present{% endif %}</div>
-                                    <p class="mt-2">{{ experience.description }}</p>
+                                    <ul>
+                                        {% for description in experience.descriptions.all %}
+                                            <li class="mb-1">{{ description.description }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    
+                                    
                                 </article>
+                                {% if not forloop.last %}
+                                        <hr>
+                                    {%  endif %}
                                 {% endfor %}
                            
                             {% endif %}
@@ -45,7 +55,7 @@
                     </section>
     
                     <section class="mb-3">
-                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Projects</h2>
+                        <h2 class="section-title text-uppercase font-weight-bold pb-2 mb-3">Projects</h2>
 
                         <div class="section-content">
                             {% if resume.projects.all %}
@@ -57,6 +67,9 @@
                                     </div>
                                     <p class="mt-2">{{ project.description }}</p>
                                 </article>
+                                {% if not forloop.last %}
+                                        <hr>
+                                    {%  endif %}
                                 {% endfor %}
                            
                             {% endif %}
@@ -64,7 +77,7 @@
                     </section>
     
                     <section class="mb-3">
-                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">References</h2>
+                        <h2 class="section-title text-uppercase font-weight-bold pb-2 mb-3">References</h2>
                         <div class="section-content">
                             {% if resume.references.all %}
                                 {% for reference in resume.references.all %}
@@ -78,57 +91,53 @@
                         </div>
                     </section>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <section class="mb-3">
-                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Tech Skills</h2>
+                        <h2 class="section-title text-uppercase font-weight-bold pb-2 mb-3">Skills</h2>
+
                         <div class="section-content">
-                            {% if technical_skills %}
-                            <ul class="list-unstyled mb-2">
-                                {% for skill in technical_skills %}
-                                    <li class="mb-2">{{ skill.name }}</li>
-                                {% endfor %}
-                            </ul>
+                            {% if skills %}
                             
+                                {% for type_skill in skills %}
+                                    <article >
+                                        <h3 class="position-title font-weight-bold mb-2">{{ type_skill.name }}</h3>
+                                        <p>
+                                            {{type_skill.skill_list}}
+                                        </p>
+                                       
+                                    </article>
+                                    {% if not forloop.last %}
+                                        <hr>
+                                    {%  endif %}
+                                {% endfor %}
                             {% endif %}
                         </div>
                     </section>
-    
                     <section class="mb-3">
-                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Soft Skills</h2>
-                        <div class="section-content">
-                            {% if technical_skills %}
-                            <ul class="list-unstyled mb-2">
-                                {% for skill in soft_skills %}
-                                    <li class="mb-2">{{ skill.name }}</li>
-                                {% endfor %}
-                            </ul>
-                            
-                            {% endif %}
-                        </div>
-                    </section>
-    
-                    <section class="mb-3">
-                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Educations</h2>
+                        <h2 class="section-title text-uppercase font-weight-bold pb-2 mb-3">Educations</h2>
                         <div class="section-content">
                             {% if resume.educations.all %}
                                 {% for education in resume.educations.all %}
-                                <div class="mb-3">
-                                    <div class="deg-name font-weight-bold">{{ education.degree }} in {{ education.field_of_study }}</div>
-                                    <div class="deg-school">{{ education.school }} </div>
-                                    <div class="period">
-                                        {{ education.start_date|date:"Y" }} - 
-                                            {% if education.end_date %}
-                                                {{ education.end_date|date:"Y" }}{% else %}Present
-                                            {% endif %}
-                                    </div>
-                                </div>
+                                    <article class="mb-3">
+                                        <div class="deg-name font-weight-bold">{{ education.degree }} in {{ education.field_of_study }}</div>
+                                        <div class="deg-school">{{ education.school }} </div>
+                                        <div class="period">
+                                            {{ education.start_date|date:"Y" }} - 
+                                                {% if education.end_date %}
+                                                    {{ education.end_date|date:"Y" }}{% else %}Present
+                                                {% endif %}
+                                        </div>
+                                    </article>
+                                    {% if not forloop.last %}
+                                        <hr>
+                                    {%  endif %}
                                 {% endfor %}
                             
                             {% endif %}
                         </div>
                     </section>
                     <section class="mb-3">
-                        <h2 class="section-title text-uppercase font-weight-bold pb-3 mb-3">Certifications</h2>
+                        <h2 class="section-title text-uppercase font-weight-bold pb-2 mb-3">Certifications</h2>
                         <div class="section-content">
                             {% if resume.certifications.all %}
 

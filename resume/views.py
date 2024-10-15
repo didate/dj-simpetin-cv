@@ -39,11 +39,23 @@ def resume_detail(request, resume_id):
     resume = get_object_or_404(Resume, id=resume_id, user=request.user)
 
     # Filter the skills
-    technical_skills = resume.skills.filter(skill_type='technical')
-    soft_skills = resume.skills.filter(skill_type='soft')
-
+    #technical_skills = resume.skills.filter(skill_type='technical')
+    #soft_skills = resume.skills.filter(skill_type='soft')
+    
     return render(request, 'resume/resume_detail.html', {
         'resume': resume,
-        'technical_skills': technical_skills,
-        'soft_skills': soft_skills,
+        'skills': get_skills(resume)
     })
+
+
+def get_skills(resume):
+    types = resume.type_skills.all()
+    skills= []
+    for type in types:
+        skills.append(
+            {
+                'name' : type.name,
+                "skill_list": ', '.join([str(i.name) for i in type.skills.all()])
+            }
+        )
+    return skills
